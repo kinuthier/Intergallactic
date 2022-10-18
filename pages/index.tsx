@@ -17,12 +17,13 @@ import toast from 'react-hot-toast'
 import Marquee from 'react-fast-marquee'
 import AdminControls from '../components/AdminControls'
 
+
 const Home: NextPage = () => {
   const address = useAddress();
   const [ quantity, setQuantity ] = useState<number>(1);
-  const [ userTickets, setUserTickets ] = useState(0);
+  const [ userTickets, setUserTickets ] = useState<number>(0);
   const { contract, isLoading } = useContract(
-    process.env.NEXT_PUBLIC_LOTTERY_CONTRACT_ADDRESS
+    process.env.NEXT_PUBLIC_LOTTERY_CONTRACT_ADDRESS,
   );
 
   const { data: remainingTickets } = useContractRead(
@@ -134,11 +135,11 @@ const Home: NextPage = () => {
       ticketAddress === address ? total + 1 :total
     ), 0);
     
-    setUserTickets(noOfUserTickets);
+    setUserTickets( noOfUserTickets );
   }, [tickets, address])
 
-  if (isLoading) return <Loading/>
-  if (!address) return <Login />;
+  if (isLoading) return <Loading/>;
+  if (!address) return <Login/>;
 
   return (
     <div className='bg-gradient-to-r from-pink-900 to-purple-900 min-h-screen flex flex-col'>
@@ -183,10 +184,10 @@ const Home: NextPage = () => {
       )}
 
       
-      <div className='space-y-5 md:space-y-0 md:flex md:flex-row items-start justify-center max-w-screen-6xl md:space-x-5'>
+<div className='space-y-5 md:space-y-0 md:flex md:flex-row items-start justify-center max-w-screen-6xl md:space-x-5'>
         <div className='stats-container'>
           <h1 className='text-5xl text-white font-semibold text-center'>
-            The Winnr Draw
+             Daily Draw
           </h1>
         <div className='flex justify-between p-2 space-x-2'>
           <div className='stats'>
@@ -259,10 +260,10 @@ const Home: NextPage = () => {
 
           <button disabled={expiration?.toString < Date.now().toString() || remainingTickets?. toNumber() === 0}
           onClick={handleClick}
-          className='mt-5 w-full bg-gradient-to-r from-yellow-500 
+          className='mt-5 w-full cursor-pointer bg-gradient-to-r from-yellow-500 
           to-yellow-300 px-10 py-5 rounded-md font-semibold text-white shadow-xl 
           disabled: from-gray-600 
-          disabled: to-transparent disabled: cursor-not-allowed'>
+          disabled: to-transparent disabled:cursor-not-allowed'>
             Buy {quantity} Tickets for {ticketPrice && 
              Number(ethers.utils.formatEther(ticketPrice.toString())
              ) * quantity}{" "}
@@ -286,18 +287,24 @@ const Home: NextPage = () => {
             </div>
           </div>
         )}
+
       </div>
       </div>
+      <br/>
+      <br/>
+      <br/>
+
       </div>
 
       <div>
       </div>
-      <footer>
-        <img 
+      <footer className="border-t border-purple-600 flex items-center text-white justify-between p-5">
+        <img
+         className="h-10 w-10 filter hue-rotate-90 opacity-60 rounded-full" 
          src="https://imgur.com/c0MlhjN.png" 
          alt="Winnr" />
-        <p>
-          Footer
+        <p className='text-xs text-grey-300 pl-5'>
+          Footer. This is a pre-production product so don't send any real money here.
         </p>
       </footer>
     </div>
